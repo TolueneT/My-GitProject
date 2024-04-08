@@ -3,8 +3,8 @@
 # Authenticate with GCP
 gcloud auth login
 
-# Set GCP project
-toluene98="your-project-id"
+# Set default project
+PROJECT_ID="your-project-id"
 gcloud config set project $PROJECT_ID
 
 # Create a virtual machine instance
@@ -18,4 +18,12 @@ gcloud compute instances create example-instance \
 BUCKET_NAME="example-bucket"
 gsutil mb gs://$BUCKET_NAME
 
-# Other resource provisioning commands...
+# Create a Cloud Storage bucket for backups
+gsutil mb gs://$BUCKET_NAME-backups
+
+# Deploy a Cloud Run service
+gcloud run deploy $SERVICE_NAME --image=gcr.io/$PROJECT_ID/$SERVICE_NAME --platform=managed --region=$REGION --allow-unauthenticated
+
+# Output success message
+echo "Web application resources provisioned successfully!"
+
